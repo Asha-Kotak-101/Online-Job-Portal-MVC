@@ -1,0 +1,15 @@
+﻿@{
+    ViewData["Title"] = "UserProfile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    if (Context.Session.GetString("Username") == null)
+    {
+        Context.Response.Redirect(Url.Action("Login", "Home"));
+    }
+}
+
+<h2>Welcome, @Context.Session.GetString("Username")</h2>
+<p>This is the User Dashboard.</p>
+
+<!-- Logout Button -->
+<a asp-controller="Home" asp-action="Logout" class="btn btn-danger">Logout</a>

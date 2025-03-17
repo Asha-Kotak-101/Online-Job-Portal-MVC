@@ -1,0 +1,151 @@
+﻿@model AddJobModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "NewJob";
+}
+
+<h2 class="text-center">Add a New Job</h2>
+
+<div class="container">
+    <form asp-action="CreateJob" asp-controller="Admin" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-6">
+                <label asp-for="Title">Job Title</label>
+                <input asp-for="Title" class="form-control" placeholder="Ex. Web Developer, App Developer" required>
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="NoOfPost">Number Of Posts</label>
+                <input asp-for="NoOfPost" type="number" class="form-control" placeholder="Enter Number of Positions" required>
+                <span asp-validation-for="NoOfPost" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <label asp-for="Description">Description</label>
+                <textarea asp-for="Description" class="form-control" placeholder="Enter Job Description" rows="3" required></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <label asp-for="Qualification">Qualification</label>
+                <input asp-for="Qualification" class="form-control" placeholder="Ex. MCA, B.Tech, MBA" required>
+                <span asp-validation-for="Qualification" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="Experience">Experience</label>
+                <input asp-for="Experience" class="form-control" placeholder="Ex. 2 Years, 1.5 Years" required>
+                <span asp-validation-for="Experience" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <label asp-for="Specialization">Specialization</label>
+                <textarea asp-for="Specialization" class="form-control" placeholder="Enter Specialization" rows="2" required></textarea>
+                <span asp-validation-for="Specialization" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="LastDateToApply">Last Date To Apply</label>
+                <input asp-for="LastDateToApply" type="date" class="form-control" required>
+                <span asp-validation-for="LastDateToApply" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <label asp-for="Salary">Salary</label>
+                <input asp-for="Salary" class="form-control" placeholder="Ex. 10000/Month, 25000/Month, 7L/Year" required>
+                <span asp-validation-for="Salary" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="JobType">Job Type</label>
+                <select asp-for="JobType" class="form-control" required>
+                    <option value="">Select Job Type</option>
+                    <option>Full Time</option>
+                    <option>Part Time</option>
+                    <option>Remote</option>
+                    <option>Freelance</option>
+                </select>
+                <span asp-validation-for="JobType" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <label asp-for="CompanyName">Company Name</label>
+                <input asp-for="CompanyName" class="form-control" placeholder="Enter Company Name" required>
+                <span asp-validation-for="CompanyName" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="CompanyLogo">Company Logo</label>
+                <input asp-for="CompanyLogo" type="file" class="form-control">
+                <span asp-validation-for="CompanyLogo" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <label asp-for="Website">Website</label>
+                <input asp-for="Website" type="url" class="form-control" placeholder="Enter Website">
+                <span asp-validation-for="Website" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="Email">Email</label>
+                <input asp-for="Email" type="email" class="form-control" placeholder="Enter Email">
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <label asp-for="Address">Address</label>
+                <textarea asp-for="Address" class="form-control" placeholder="Enter Work Location" rows="2" required></textarea>
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <label asp-for="Country">Country</label>
+                <select asp-for="Country" class="form-control">
+                    <option value="">Select Country</option>
+                    @foreach (var country in ViewBag.Countries)
+                    {
+                        <option value="@country">@country</option>
+                    }
+                </select>
+                <span asp-validation-for="Country" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="State">State</label>
+                <input asp-for="State" class="form-control" placeholder="Enter State" required>
+                <span asp-validation-for="State" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-primary btn-block">Add Job</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@if (TempData["msg"] != null)
+{
+    <script>
+        alert('@TempData["msg"]');
+        window.location.href = "@Url.Action("AdminDashboard", "Admin")";
+    </script>
+}
