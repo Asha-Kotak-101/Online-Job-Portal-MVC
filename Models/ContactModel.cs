@@ -51,12 +51,13 @@ namespace Online_Job_Portal_MVC.Models
         {
             using (SqlConnection con = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=JobPortalDB;Integrated Security=True;"))
             {
-                SqlCommand cmd = new SqlCommand("INSERT INTO Contact (FullName, Message, Subject, Email) VALUES (@FullName, @Email, @Message, @Subject)", con);
+                SqlCommand cmd = new SqlCommand("INSERT INTO Contact (FullName, Message, Subject, Email) VALUES (@FullName, @Message, @Subject, @Email)", con);
 
                 cmd.Parameters.AddWithValue("@FullName", re.FullName);
                 cmd.Parameters.AddWithValue("@Message", re.Message);
-                cmd.Parameters.AddWithValue("@Email", re.Email);
                 cmd.Parameters.AddWithValue("@Subject", re.Subject);
+                cmd.Parameters.AddWithValue("@Email", re.Email);
+               
 
                 con.Open();
                 int i = cmd.ExecuteNonQuery();

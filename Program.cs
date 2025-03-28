@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddSession(); // ? Add session support
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -15,6 +16,8 @@ builder.Services.AddControllersWithViews();
 
 
 var app = builder.Build();
+
+app.UseSession(); // ? Use session
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

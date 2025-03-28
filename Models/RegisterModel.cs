@@ -36,6 +36,8 @@ namespace Online_Job_Portal_MVC.Models
 
         [Required(ErrorMessage = "Please enter Country")]
         public string ?Country { get; set; }
+
+        [Required(ErrorMessage = "Please enter Role")]
         public string ?Role { get;  set; }
 
 

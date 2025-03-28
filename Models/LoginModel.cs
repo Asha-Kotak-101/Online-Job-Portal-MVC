@@ -1,8 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using Microsoft.Data.SqlClient;
-
-using System.ComponentModel.DataAnnotations;
 
 namespace Online_Job_Portal_MVC.Models
 {
@@ -10,14 +9,14 @@ namespace Online_Job_Portal_MVC.Models
     {
         SqlConnection con = new SqlConnection("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=JobPortalDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
         [Required]
-        public string ?Username { get; set; }
+        public string? Username { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
-        public string ?Password { get; set; }
+        public string? Password { get; set; }
 
         [Required]
-        public string ?Role { get; set; }
+        public string? Role { get; set; }
 
 
         //Retrieve all records from a table
