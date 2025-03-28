@@ -1,4 +1,4 @@
-﻿@{
+﻿@* @{
     ViewData["Title"] = "UserProfile";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
@@ -13,3 +13,33 @@
 
 <!-- Logout Button -->
 <a asp-controller="Home" asp-action="Logout" class="btn btn-danger">Logout</a>
+ *@
+
+@{
+    ViewData["Title"] = "UserProfile";
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    if (Context.Session.GetString("Username") == null)
+    {
+        Context.Response.Redirect(Url.Action("Login", "Home"));
+    }
+}
+
+<h2>Welcome, @Context.Session.GetString("Username")</h2>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Your Profile Details</h4>
+            <p><strong>Username:</strong> @Context.Session.GetString("Username")</p>
+            <p><strong>Role:</strong> @Context.Session.GetString("Role")</p>
+        </div>
+    </div>
+
+    @* <!-- Show Profile & Logout buttons -->
+    <div class="mt-3">
+        <a class="btn btn-info" asp-controller="Home" asp-action="UserProfile">Profile</a>
+        <a class="btn btn-danger ms-2" asp-controller="Home" asp-action="Logout">Logout</a>
+    </div> *@
+</div>

@@ -139,6 +139,21 @@
                         <li class="nav-item"><a class="nav-link text-dark" asp-controller="Home" asp-action="Register">Register</a></li>
                         <li class="nav-item"><a class="nav-link text-dark" asp-controller="Home" asp-action="Login">Login</a></li>
                         <li class="nav-item"><a class="nav-link text-dark" asp-controller="Admin" asp-action="AdminDashboard">Admin</a></li>
+                        @if (Context.Session.GetString("Username") == null)
+                        {
+                            @* <li class="nav-item"><a class="nav-link text-dark" asp-controller="Home" asp-action="Register">Register</a></li>
+                            <li class="nav-item"><a class="nav-link text-dark" asp-controller="Home" asp-action="Login">Login</a></li> *@
+                        }
+                        else
+                        {
+                            <!-- Show Profile & Logout when user is logged in -->
+                            <li class="nav-item">
+                                <a class="nav-link btn btn-info text-white" asp-controller="Home" asp-action="UserProfile">Profile</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link btn btn-danger text-white ms-2" asp-controller="Home" asp-action="Logout">Logout</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
