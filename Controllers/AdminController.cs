@@ -193,7 +193,33 @@ namespace Online_Job_Portal_MVC.Controllers
 
         public IActionResult ContactList()
         {
-            return View();
+            List<UserListModel> contacts = new List<UserListModel>();
+
+            using (SqlConnection con = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=JobPortalDB;Integrated Security=True;"))
+            {
+                string query = "SELECT Username, Email, MobileNumber, Country FROM Register";  // Assuming contact details are stored in Register table
+                SqlCommand cmd = new SqlCommand(query, con);
+                con.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    contacts.Add(new UserListModel
+                    {
+                        GetUser = new RegisterModel
+                        {
+                            Username = reader["Username"].ToString(),
+                            Email = reader["Email"].ToString(),
+                            MobileNumber = reader["MobileNumber"].ToString(),
+                            Country = reader["Country"].ToString()
+                        }
+                    });
+                }
+                reader.Close();
+            }
+
+            return View(contacts); // Pass the contact list to the view
         }
+
     }
 }
