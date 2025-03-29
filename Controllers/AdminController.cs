@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Online_Job_Portal_MVC.Models;
 
 namespace Online_Job_Portal_MVC.Controllers
@@ -115,9 +116,47 @@ namespace Online_Job_Portal_MVC.Controllers
         }
 
 
+        //public IActionResult ViewResume()
+        //{
+        //    return View();
+        //}
         public IActionResult ViewResume()
         {
-            return View();
+            List<JobWithUserViewModel> resumeList = new List<JobWithUserViewModel>();
+
+            using (SqlConnection con = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=JobPortalDB;Integrated Security=True;"))
+            {
+                con.Open();
+                string query = @"
+        SELECT 
+            j.CompanyName, j.Title, 
+            r.FullName, r.Email, r.MobileNumber 
+        FROM Jobs j
+        JOIN Register r ON j.Email = r.Email;";
+
+                SqlCommand cmd = new SqlCommand(query, con);
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    resumeList.Add(new JobWithUserViewModel
+                    {
+                        Job = new AddJobModel
+                        {
+                            CompanyName = reader["CompanyName"].ToString(),
+                            Title = reader["Title"].ToString()
+                        },
+                        User = new RegisterModel
+                        {
+                            Fullname = reader["Fullname"].ToString(),
+                            Email = reader["Email"].ToString(),
+                            MobileNumber = reader["MobileNumber"].ToString()
+                        }
+                    });
+                }
+            }
+
+            return View(resumeList);  // Pass data to the View
         }
 
 

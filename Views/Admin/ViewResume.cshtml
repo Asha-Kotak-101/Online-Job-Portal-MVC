@@ -3,7 +3,8 @@
     ViewData["Title"] = "ViewResume";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<h1>ViewResume / Download Resume</h1>
+@* 
 <h1>ViewResume</h1>
 <div style="background-image: url('/Images/bg.jpg'); width: 100%; height: 720px; background-repeat: no-repeat; background-size: cover; background-attachment: fixed;">
     <div class="container container-fluid pt-4 pb-4">
@@ -75,3 +76,39 @@
     </div>
 </div>
 
+ *@
+@model List<Online_Job_Portal_MVC.Models.JobWithUserViewModel>
+
+@if (TempData["msg"] != null)
+{
+    <div class="alert alert-success">@TempData["msg"]</div>
+}
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Company Name</th>
+            <th>Job Title</th>
+            <th>User Full Name</th>
+            <th>User Email</th>
+            <th>User Mobile Number</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Job.CompanyName</td>
+                <td>@item.Job.Title</td>
+                <td>@item.User.Fullname</td>
+                <td>@item.User.Email</td>
+                <td>@item.User.MobileNumber</td>
+                <td>
+                    <a href="#" class="btn btn-primary">View Resume</a>
+                    <a href="#" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
