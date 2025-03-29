@@ -72,7 +72,7 @@ namespace Online_Job_Portal_MVC.Models
 
         //Insert a record into a database table
          public bool insert(RegisterModel re)
-        {
+         {
             using (SqlConnection con = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=JobPortalDB;Integrated Security=True;"))
             {
                 SqlCommand cmd = new SqlCommand("INSERT INTO Register (Username, Password, ConfirmPassword, Fullname,Address, MobileNumber, Email, Country, Role) VALUES (@Username, @Password, @ConfirmPassword, @Fullname, @Address, @MobileNumber, @Email, @Country, @Role)", con);
