@@ -23,12 +23,9 @@ namespace Online_Job_Portal_MVC.Controllers
 
         public IActionResult NewJob()
         {
-            ViewBag.Countries = new List<string> { "India", "USA", "Canada", "UK", "Australia" };
             job = new AddJobModel();
             List<AddJobModel> lst = job.getData(); // Fetches all the records
             return View(new AddJobModel());
-            
-    
         }
 
         [HttpPost]
@@ -50,18 +47,7 @@ namespace Online_Job_Portal_MVC.Controllers
             }
             return View();
         }
-        //[HttpPost]
-        //public IActionResult CreateJob(JobModel job)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        // Save job details to the database
-        //        TempData["SuccessMessage"] = "Job posted successfully!";
-        //        return RedirectToAction("JobList");
-        //    }
-        //    ViewBag.Countries = new List<string> { "India", "USA", "Canada", "UK", "Australia" };
-        //    return View("NewJob");
-        //}
+       
 
         public IActionResult JobList()
         {
