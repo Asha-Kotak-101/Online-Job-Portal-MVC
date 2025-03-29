@@ -9,7 +9,6 @@ namespace Online_Job_Portal_MVC.Controllers
     {
         AddJobModel job = new AddJobModel();
         private readonly ILogger<HomeController> _logger;
-
         public AdminController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -162,8 +161,34 @@ namespace Online_Job_Portal_MVC.Controllers
 
         public IActionResult UserList()
         {
-            return View();
+            List<UserListModel> users = new List<UserListModel>();
+
+            using (SqlConnection con = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=JobPortalDB;Integrated Security=True;"))
+            {
+                string query = "SELECT Username, Email, MobileNumber, Country FROM Register";
+                SqlCommand cmd = new SqlCommand(query, con);
+                con.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    users.Add(new UserListModel
+                    {
+                        GetUser = new RegisterModel
+                        {
+                            Username = reader["Username"].ToString(),
+                            Email = reader["Email"].ToString(),
+                            MobileNumber = reader["MobileNumber"].ToString(),
+                            Country = reader["Country"].ToString()
+                        }
+                    });
+                }
+                reader.Close();
+            }
+
+            return View(users); // Pass the user list to the view
         }
+
 
 
         public IActionResult ContactList()
