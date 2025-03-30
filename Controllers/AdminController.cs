@@ -197,7 +197,7 @@ namespace Online_Job_Portal_MVC.Controllers
 
             using (SqlConnection con = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=JobPortalDB;Integrated Security=True;"))
             {
-                string query = "SELECT Username, Email, MobileNumber, Country FROM Register";  // Assuming contact details are stored in Register table
+                string query = "SELECT *  FROM Contact";  // Assuming contact details are stored in Contact table
                 SqlCommand cmd = new SqlCommand(query, con);
                 con.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -206,12 +206,12 @@ namespace Online_Job_Portal_MVC.Controllers
                 {
                     contacts.Add(new UserListModel
                     {
-                        GetUser = new RegisterModel
+                        GetContact = new ContactModel
                         {
-                            Username = reader["Username"].ToString(),
+                            FullName = reader["FullName"].ToString(),
                             Email = reader["Email"].ToString(),
-                            MobileNumber = reader["MobileNumber"].ToString(),
-                            Country = reader["Country"].ToString()
+                            Message = reader["Message"].ToString(),
+                            Subject = reader["Subject"].ToString()
                         }
                     });
                 }

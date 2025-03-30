@@ -15,20 +15,20 @@
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th>User Name</th>
+            <th>Fullname</th>
             <th>Email</th>
-            <th>Mobile No.</th>
-            <th>Country</th>
+            <th>Message</th>
+            <th>Subject</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
             <tr>
-                <td>@item.GetUser.Username</td>
-                <td>@item.GetUser.Email</td>
-                <td>@item.GetUser.MobileNumber</td>
-                <td>@item.GetUser.Country</td>
+                <td>@item.GetContact.FullName</td>
+                <td>@item.GetContact.Email</td>
+                <td>@item.GetContact.Message</td>
+                <td>@item.GetContact.Subject</td>
             </tr>
         }
     </tbody>
