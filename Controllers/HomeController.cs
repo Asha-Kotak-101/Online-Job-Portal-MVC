@@ -50,6 +50,11 @@ namespace Online_Job_Portal_MVC.Controllers
             return View();
         }
 
+        public IActionResult ResumeBulid()
+        {
+            return View();
+        }
+
         public IActionResult Register()
         {
             RegObj = new RegisterModel();
