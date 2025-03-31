@@ -7,6 +7,7 @@ namespace Online_Job_Portal_MVC.Controllers
 {
     public class HomeController : Controller
     {
+        ResumeModel RM = new ResumeModel();
         RegisterModel RegObj = new RegisterModel();
         LoginModel LogObj = new LoginModel();
         ContactModel conobj = new ContactModel();
@@ -52,7 +53,9 @@ namespace Online_Job_Portal_MVC.Controllers
 
         public IActionResult ResumeBulid()
         {
-            return View();
+            RM = new ResumeModel();
+            List<ResumeModel> lst = RM.getData(); // Fetches all the records
+            return View(new ResumeModel());
         }
 
         public IActionResult Register()
@@ -173,6 +176,26 @@ namespace Online_Job_Portal_MVC.Controllers
         }
 
 
+
+        [HttpPost]
+        public IActionResult ResumeBulid(ResumeModel emp)
+        {
+            bool res;
+            if (ModelState.IsValid)
+            {
+                RM = new ResumeModel();
+                res = RM.insert(emp);
+                if (res)
+                {
+                    TempData["msg"] = "Added successfully";
+                }
+                else
+                {
+                    TempData["msg"] = "Not Added. Something went wrong..!!";
+                }
+            }
+            return View();
+        }
 
 
         [HttpPost]
