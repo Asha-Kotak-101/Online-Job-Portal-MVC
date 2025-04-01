@@ -107,24 +107,24 @@ namespace Online_Job_Portal_MVC.Models
         //Insert a record into a database table
         public bool insert(ResumeModel re)
         {
-            using (SqlConnection con = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=JobPortalDB;Integrated Security=True;"))
+            using (SqlConnection con = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=JobPortalDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False"))
             {
                 SqlCommand cmd = new SqlCommand("INSERT INTO Resume (Fullname, Username, Address, MoblieNumber, Email, Country, TenPercentage, TWPercentage, GraduationGrade, PostGraduationGrade, PHDGrade, JobProfile, WorksExperience, UploadResume) " + "VALUES (@Fullname, @Username, @Address, @MoblieNumber, @Email, @Country, @TenPercentage, @TWPercentage, @GraduationGrade, @PostGraduationGrade, @PHDGrade, @JobProfile, @WorksExperience, @UploadResume)", con);
 
-                cmd.Parameters.AddWithValue("@Fullname", re.Fullname ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@Username", re.Username ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@Address", re.Address ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@MoblieNumber", re.MoblieNumber ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@Email", re.Email ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@Country", re.Country ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@TenPercentage", re.TenPercentage ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@TWPercentage", re.TWPercentage ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@GraduationGrade", re.GraduationGrade ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@PostGraduationGrade", re.PostGraduationGrade ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@PHDGrade", re.PHDGrade ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@JobProfile", re.JobProfile ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@WorksExperience", re.WorksExperience ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@UploadResume", re.UploadResume ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@Fullname", re.Fullname);
+                cmd.Parameters.AddWithValue("@Username", re.Username);
+                cmd.Parameters.AddWithValue("@Address", re.Address);
+                cmd.Parameters.AddWithValue("@MoblieNumber", re.MoblieNumber);
+                cmd.Parameters.AddWithValue("@Email", re.Email);
+                cmd.Parameters.AddWithValue("@Country", re.Country);
+                cmd.Parameters.AddWithValue("@TenPercentage", re.TenPercentage);
+                cmd.Parameters.AddWithValue("@TWPercentage", re.TWPercentage);
+                cmd.Parameters.AddWithValue("@GraduationGrade", re.GraduationGrade);
+                cmd.Parameters.AddWithValue("@PostGraduationGrade", re.PostGraduationGrade);
+                cmd.Parameters.AddWithValue("@PHDGrade", re.PHDGrade);
+                cmd.Parameters.AddWithValue("@JobProfile", re.JobProfile);
+                cmd.Parameters.AddWithValue("@WorksExperience", re.WorksExperience);
+                cmd.Parameters.AddWithValue("@UploadResume", re.UploadResume);
 
                 con.Open();
                 int i = cmd.ExecuteNonQuery();
