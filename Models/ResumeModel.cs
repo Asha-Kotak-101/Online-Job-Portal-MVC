@@ -5,7 +5,7 @@ namespace Online_Job_Portal_MVC.Models
 {
     public class ResumeModel
     {
-        
+
         SqlConnection con = new SqlConnection("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=JobPortalDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
         [Key]
         public int Id { get; set; }
@@ -65,12 +65,12 @@ namespace Online_Job_Portal_MVC.Models
 
 
         [Required(ErrorMessage = "Please upload your resume")]
-        public IFormFile? UploadResumeFile { get; set; } // Change to IFormFile
-        public string? UploadResume { get; set; } // Store the file path
+        public IFormFile? UploadResumeFile { get; set; } // For receiving the uploaded file
+        public string? UploadResume { get; set; } // For saving the file path
 
 
 
-        //Retrieve all records from a table
+        //Retrieve all records from a table for Resume / Register copy method
         public List<ResumeModel> getData()
         {
             List<ResumeModel> lstUser = new List<ResumeModel>();
@@ -96,20 +96,17 @@ namespace Online_Job_Portal_MVC.Models
                     JobProfile = dr["JobProfile"].ToString(),
                     WorksExperience = dr["WorksExperience"].ToString(),
                     UploadResume = dr["UploadResume"].ToString(),
-
                 });
             }
             return lstUser;
         }
 
-
-
-        //Insert a record into a database table
+        //Insert a record into a database table  / Register copy method
         public bool insert(ResumeModel re)
         {
-            using (SqlConnection con = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=JobPortalDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False"))
+            using (SqlConnection con = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=JobPortalDB;Integrated Security=True;"))
             {
-                SqlCommand cmd = new SqlCommand("INSERT INTO Resume (Fullname, Username, Address, MoblieNumber, Email, Country, TenPercentage, TWPercentage, GraduationGrade, PostGraduationGrade, PHDGrade, JobProfile, WorksExperience, UploadResume) " + "VALUES (@Fullname, @Username, @Address, @MoblieNumber, @Email, @Country, @TenPercentage, @TWPercentage, @GraduationGrade, @PostGraduationGrade, @PHDGrade, @JobProfile, @WorksExperience, @UploadResume)", con);
+                SqlCommand cmd = new SqlCommand("INSERT INTO Resume (Fullname, Username, Address, MoblieNumber,Email, Country, TenPercentage, TWPercentage, GraduationGrade, PostGraduationGrade, PHDGrade, JobProfile, WorksExperience, UploadResume ) VALUES (@Fullname, @Username, @Address, @MoblieNumber, @Email, @Country, @TenPercentage, @TWPercentage, @GraduationGrade, @PostGraduationGrade, @PHDGrade, @JobProfile, @WorksExperience,@UploadResume)", con);
 
                 cmd.Parameters.AddWithValue("@Fullname", re.Fullname);
                 cmd.Parameters.AddWithValue("@Username", re.Username);
@@ -133,6 +130,10 @@ namespace Online_Job_Portal_MVC.Models
                 return i >= 1;
             }
         }
+
+
+
+       
 
 
 

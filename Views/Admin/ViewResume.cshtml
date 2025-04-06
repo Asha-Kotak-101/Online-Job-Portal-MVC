@@ -1,83 +1,11 @@
-﻿
+﻿@model List<Online_Job_Portal_MVC.Models.JobWithUserViewModel>
 @{
     ViewData["Title"] = "ViewResume";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <h1>ViewResume / Download Resume</h1>
-@* 
-<h1>ViewResume</h1>
-<div style="background-image: url('/Images/bg.jpg'); width: 100%; height: 720px; background-repeat: no-repeat; background-size: cover; background-attachment: fixed;">
-    <div class="container container-fluid pt-4 pb-4">
 
-        <div class="mb-3">
-            <span class="text-success">@ViewBag.Message</span>
-        </div>
 
-        <h3 class="text-center">View Resume / Download Resume</h3>
-
-        <div class="row mb-3 pt-sm-3">
-            <div class="col-md-12">
-                <table class="table table-hover table-bordered">
-                    <thead class="bg-primary text-white">
-                        <tr class="text-center">
-                            <th>Sr. No</th>
-                            <th>Company Name</th>
-                            <th>Job Title</th>
-                            <th>User Name</th>
-                            <th>User Email</th>
-                            <th>Mobile No.</th>
-                            <th>Resume</th>
-                            <th>Delete</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="text-center">
-                            <td>1</td>
-                            <td>ABC Tech</td>
-                            <td>Software Developer</td>
-                            <td>John Doe</td>
-                            <td>john@example.com</td>
-                            <td>+91 9876543210</td>
-                            <td>
-                                <a href="/resumes/john_resume.pdf" class="btn btn-sm btn-success" download>
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </td>
-                            <td>
-                                <button class="btn btn-sm btn-danger">
-                                    <img src="/assets/img/icon/trashIcon.jpg" width="30px" height="30px" />
-                                </button>
-                            </td>
-                        </tr>
-                        <tr class="text-center">
-                            <td>2</td>
-                            <td>XYZ Analytics</td>
-                            <td>Data Analyst</td>
-                            <td>Jane Smith</td>
-                            <td>jane@example.com</td>
-                            <td>+91 9876543221</td>
-                            <td>
-                                <a href="/resumes/jane_resume.pdf" class="btn btn-sm btn-success" download>
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </td>
-                            <td>
-                                <button class="btn btn-sm btn-danger">
-                                    <img src="/assets/img/icon/trashIcon.jpg" width="30px" height="30px" />
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <p class="text-center text-muted">No Record To Display...!!</p>
-            </div>
-        </div>
-    </div>
-</div>
-
- *@
-@model List<Online_Job_Portal_MVC.Models.JobWithUserViewModel>
 
 @if (TempData["msg"] != null)
 {
@@ -111,4 +39,7 @@
             </tr>
         }
     </tbody>
+       <div class="form-group mt-3">
+        <a asp-controller="Admin" asp-action="AdminDashboard" class="btn btn-link">BACK</a>
+        </div>
 </table>

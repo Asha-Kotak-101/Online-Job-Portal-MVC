@@ -3,9 +3,10 @@
     ViewData["Title"] = "ResumeBulid";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>ResumeBulid</h1>
-<h2>Here You Can Edit Your Details and Upload Your Resume</h2>
+<center>
+    <h1>ResumeBulid</h1>
+    <h2>Here You Can Edit Your Details and Upload Your Resume</h2>
+</center>
 @if (ViewBag.ErrorMessage != null)
 {
     <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
@@ -15,6 +16,7 @@
 {
     <div class="alert alert-success">@ViewBag.Message</div>
 }
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -151,8 +153,10 @@
 
                                 <div class="col-md-6">
                                     <label asp-for="UploadResume">Upload Resume</label>
-                                    <input asp-for="UploadResume" type="file" class="form-control">
-                                    <span asp-validation-for="UploadResume" class="text-danger"></span>
+                                   @*  <input asp-for="UploadResume" type="file" class="form-control">
+                                    <span asp-validation-for="UploadResume" class="text-danger"></span> *@
+                                    <input asp-for="UploadResumeFile" type="file" class="form-control">
+
                                 </div>
 
                             </div>
@@ -171,7 +175,7 @@
     {
         <script>
             alert('@TempData["msg"]');
-            window.location.href = "@Url.Action("UserProfile", "Home")";
+            window.location.href = "@Url.Action("UserProflie", "Home")";
         </script>
     }
 </body>

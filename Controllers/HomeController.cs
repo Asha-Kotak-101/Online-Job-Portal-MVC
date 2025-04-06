@@ -51,6 +51,13 @@ namespace Online_Job_Portal_MVC.Controllers
             return View();
         }
 
+
+        public IActionResult UserResumeBulid()
+        {
+            return View();
+        }
+
+
         public IActionResult ResumeBulid()
         {
             RM = new ResumeModel();
@@ -177,14 +184,55 @@ namespace Online_Job_Portal_MVC.Controllers
 
 
 
+        //[HttpPost]
+        //public IActionResult ResumeBulid(ResumeModel emp)
+        //{
+        //    bool res;
+        //    if (ModelState.IsValid)
+        //    {
+        //        RM = new ResumeModel();
+        //        res = RM.insert(emp);
+        //        if (res)
+        //        {
+        //            TempData["msg"] = "Added successfully";
+        //        }
+        //        else
+        //        {
+        //            TempData["msg"] = "Not Added. Something went wrong..!!";
+        //        }
+        //    }
+        //    return View();
+        //}
+
+
         [HttpPost]
         public IActionResult ResumeBulid(ResumeModel emp)
         {
-            bool res;
             if (ModelState.IsValid)
             {
+                // Save file to wwwroot/ResumeUploads
+                if (emp.UploadResumeFile != null)
+                {
+                    string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/ResumeUploads");
+                    if (!Directory.Exists(uploadsFolder))
+                    {
+                        Directory.CreateDirectory(uploadsFolder);
+                    }
+
+                    string uniqueFileName = Guid.NewGuid().ToString() + "_" + emp.UploadResumeFile.FileName;
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        emp.UploadResumeFile.CopyTo(fileStream);
+                    }
+
+                    emp.UploadResume = "/ResumeUploads/" + uniqueFileName; // Save path to DB
+                }
+
                 RM = new ResumeModel();
-                res = RM.insert(emp);
+                bool res = RM.insert(emp);
+
                 if (res)
                 {
                     TempData["msg"] = "Added successfully";
@@ -194,8 +242,52 @@ namespace Online_Job_Portal_MVC.Controllers
                     TempData["msg"] = "Not Added. Something went wrong..!!";
                 }
             }
+
             return View();
         }
+
+
+
+        //[HttpPost]
+        //public IActionResult ResumeBulid(ResumeModel resume)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        using (SqlConnection con = new SqlConnection("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=JobPortalDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False"))
+        //        {
+        //            string query = "INSERT INTO Resume (Fullname, Username, Address, MoblieNumber, Email, Country, TenPercentage, TWPercentage, GraduationGrade, PostGraduationGrade, PHDGrade, JobProfile, WorksExperience, UploadResume) " + "VALUES (@Fullname, @Username, @Address, @MoblieNumber, @Email, @Country, @TenPercentage, @TWPercentage, @GraduationGrade,@PostGraduationGrade, @PHDGrade, @JobProfile,@WorksExperience, @UploadResume)";
+        //            SqlCommand cmd = new SqlCommand(query, con);
+        //            cmd.Parameters.AddWithValue("@Fullname", resume.Fullname);
+        //            cmd.Parameters.AddWithValue("@Username", resume.Username);
+        //            cmd.Parameters.AddWithValue("@Address", resume.Address);
+        //            cmd.Parameters.AddWithValue("@MoblieNumber", resume.MoblieNumber);
+
+        //            cmd.Parameters.AddWithValue("@Fullname", resume.Email);
+        //            cmd.Parameters.AddWithValue("@Username", resume.Country);
+        //            cmd.Parameters.AddWithValue("@Address", resume.TenPercentage);
+        //            cmd.Parameters.AddWithValue("@MoblieNumber", resume.TWPercentage);
+
+        //            cmd.Parameters.AddWithValue("@Fullname", resume.GraduationGrade);
+        //            cmd.Parameters.AddWithValue("@Username", resume.PostGraduationGrade);
+        //            cmd.Parameters.AddWithValue("@Address", resume.PHDGrade);
+        //            cmd.Parameters.AddWithValue("@MoblieNumber", resume.JobProfile);
+
+        //            cmd.Parameters.AddWithValue("@Fullname", resume.WorksExperience);
+
+        //            cmd.Parameters.AddWithValue("@UploadResume", resume.UploadResume); // Store file path if needed
+        //            con.Open();
+        //            int result = cmd.ExecuteNonQuery();
+        //            con.Close();
+
+        //            if (result > 0)
+        //            {
+        //                TempData["Success"] = "Resume uploaded successfully!";
+        //                return RedirectToAction("UserProfile","Home");
+        //            }
+        //        }
+        //    }
+        //    return View(resume);
+        //}
 
 
         [HttpPost]
