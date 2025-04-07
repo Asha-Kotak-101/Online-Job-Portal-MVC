@@ -4,5 +4,6 @@
     {
         public AddJobModel Job { get; set; }  // Job Details
         public RegisterModel User { get; set; }  // User Details
+        public ResumeModel user { get; set; }  // Resume Details
     }
 }
