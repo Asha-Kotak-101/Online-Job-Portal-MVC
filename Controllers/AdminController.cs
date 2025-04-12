@@ -20,6 +20,11 @@ namespace Online_Job_Portal_MVC.Controllers
         }
 
 
+        public IActionResult AdminProfile()
+        {
+            return View();
+        }
+
         public IActionResult NewJob()
         {
             job = new AddJobModel();

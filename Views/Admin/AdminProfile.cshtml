@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewData["Title"] = "AdminProfile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    if (Context.Session.GetString("Username") == null)
+    {
+        Context.Response.Redirect(Url.Action("Login", "Home"));
+    }
+}
+
+<h2>Welcome, @Context.Session.GetString("Username")</h2>
+<p>This is the Admin Dashboard.</p>
+
+<div class="row">
+    <div class="col-md-6">
+        <h4>Your Profile Details</h4>
+        <p><strong>Username:</strong> @Context.Session.GetString("Username")</p>
+        <p><strong>Role:</strong> @Context.Session.GetString("Role")</p>
+    </div>
+</div>
+
