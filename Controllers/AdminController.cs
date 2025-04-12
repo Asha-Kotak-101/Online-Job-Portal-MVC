@@ -14,9 +14,46 @@ namespace Online_Job_Portal_MVC.Controllers
             _logger = logger;
         }
 
+        //public IActionResult AdminDashboard()
+        //{
+        //    return View();
+        //}
         public IActionResult AdminDashboard()
         {
-            return View();
+            DashboardViewModel model = new DashboardViewModel();
+
+            string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=JobPortalDB;Integrated Security=True;";
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+
+                // Get Total Users
+                using (SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Register WHERE Role = 'User'", con))
+                {
+                    model.TotalUsers = (int)cmd.ExecuteScalar();
+                }
+
+                // Get Total Jobs
+                using (SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Jobs", con))
+                {
+                    model.TotalJobs = (int)cmd.ExecuteScalar();
+                }
+
+                // Get Total Applied Jobs
+                using (SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Resume", con))
+                {
+                    model.TotalAppliedJobs = (int)cmd.ExecuteScalar();
+                }
+
+                // Get Contacted Users
+                using (SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Contact", con))
+                {
+                    model.ContactedUsers = (int)cmd.ExecuteScalar();
+                }
+            }
+
+            return View(model);
         }
 
 
