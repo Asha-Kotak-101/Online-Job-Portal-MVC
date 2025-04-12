@@ -1,5 +1,4 @@
 ﻿@model List<Online_Job_Portal_MVC.Models.UserListModel>
-
 @{
     ViewData["Title"] = "Contact List";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -19,6 +18,7 @@
             <th>Email</th>
             <th>Message</th>
             <th>Subject</th>
+            <th>Delete</th>
         </tr>
     </thead>
     <tbody>
@@ -29,6 +29,9 @@
                 <td>@item.GetContact.Email</td>
                 <td>@item.GetContact.Message</td>
                 <td>@item.GetContact.Subject</td>
+                <td>
+                    <a href="#" class="btn btn-danger">Delete</a>
+                </td>
             </tr>
         }
     </tbody>
