@@ -138,7 +138,7 @@
                         <li class="nav-item"><a class="nav-link text-dark" asp-controller="Home" asp-action="Contact">Contact</a></li>
                         <li class="nav-item"><a class="nav-link text-dark" asp-controller="Home" asp-action="Register">Register</a></li>
                         <li class="nav-item"><a class="nav-link text-dark" asp-controller="Home" asp-action="Login">Login</a></li>
-                        <li class="nav-item"><a class="nav-link text-dark" asp-controller="Admin" asp-action="AdminDashboard">Admin</a></li>
+                        @* <li class="nav-item"><a class="nav-link text-dark" asp-controller="Admin" asp-action="AdminDashboard">Admin</a></li> *@
                         @if (Context.Session.GetString("Username") == null)
                         {
                             @* <li class="nav-item">
@@ -154,10 +154,20 @@
 
                             if (role == "Admin")
                             {
+
+                                <!-- Admin Dashboard Link -->
+                                <li class="nav-item">
+                                    <a class="nav-link btn btn-info text-white" asp-controller="Admin" asp-action="AdminDashboard">Admin</a>
+                                </li>
+                                
+                                <li>    </li>
+
                                 <!-- Admin Profile Link -->
                                 <li class="nav-item">
                                     <a class="nav-link btn btn-info text-white" asp-controller="Admin" asp-action="AdminProfile">Admin Profile</a>
                                 </li>
+
+                              
                             }
                             else
                             {
