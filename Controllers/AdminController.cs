@@ -305,5 +305,26 @@ namespace Online_Job_Portal_MVC.Controllers
             return RedirectToAction("ContactList");
         }
 
+        [HttpPost]
+        public IActionResult DeleteJob(int id)
+        {
+            string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=JobPortalDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False"; // Replace with your actual connection string
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = "DELETE FROM Jobs WHERE JobId = @JobId";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@JobId", id);
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+
+            TempData["msg"] = "Job deleted successfully.";
+            return RedirectToAction("JobList");
+        }
+
+
     }
 }
