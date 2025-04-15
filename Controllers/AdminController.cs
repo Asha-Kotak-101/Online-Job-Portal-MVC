@@ -263,5 +263,47 @@ namespace Online_Job_Portal_MVC.Controllers
             return View(contacts); // Pass the contact list to the view
         }
 
+
+        [HttpPost]
+        public IActionResult DeleteUser(string email)
+        {
+            string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=JobPortalDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False"; 
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = "DELETE FROM Register WHERE Email = @Email";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@Email", email);
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+
+            TempData["msg"] = "User deleted successfully.";
+            return RedirectToAction("UserList");
+        }
+
+
+        [HttpPost]
+        public IActionResult DeleteContact(string email)
+        {
+            string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=JobPortalDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = "DELETE FROM Contact WHERE Email = @Email";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@Email", email);
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+
+            TempData["msg"] = "User Details deleted successfully.";
+            return RedirectToAction("ContactList");
+        }
+
     }
 }
