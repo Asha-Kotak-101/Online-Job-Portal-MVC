@@ -68,6 +68,7 @@ namespace Online_Job_Portal_MVC.Models
         public IFormFile? UploadResumeFile { get; set; } // For receiving the uploaded file
         public string? UploadResume { get; set; } // For saving the file path
 
+        public string ?ResumeFilePath { get; set; }
 
 
         //Retrieve all records from a table for Resume / Register copy method

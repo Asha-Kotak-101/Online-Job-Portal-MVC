@@ -161,6 +161,46 @@ namespace Online_Job_Portal_MVC.Controllers
         //{
         //    return View();
         //}
+        //     public IActionResult ViewResume()
+        //     {
+        //         List<JobWithUserViewModel> resumeList = new List<JobWithUserViewModel>();
+
+        //         using (SqlConnection con = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=JobPortalDB;Integrated Security=True;"))
+        //         {
+        //             con.Open();
+        //             string query = @"
+        //     SELECT 
+        // j.CompanyName, j.Title, 
+        // r.FullName, r.Email, r.MobileNumber, 
+        // res.ResumeFilePath
+        // FROM Jobs j
+        //JOIN Register r ON j.Email = r.Email
+        //JOIN Resume res ON r.Email = res.Email ";
+
+        //             SqlCommand cmd = new SqlCommand(query, con);
+        //             SqlDataReader reader = cmd.ExecuteReader();
+
+        //             while (reader.Read())
+        //             {
+        //                 resumeList.Add(new JobWithUserViewModel
+        //                 {
+        //                     Job = new AddJobModel
+        //                     {
+        //                         CompanyName = reader["CompanyName"].ToString(),
+        //                         Title = reader["Title"].ToString()
+        //                     },
+        //                     User = new RegisterModel
+        //                     {
+        //                         Fullname = reader["Fullname"].ToString(),
+        //                         Email = reader["Email"].ToString(),
+        //                         MobileNumber = reader["MobileNumber"].ToString()
+        //                     }
+        //                 });
+        //             }
+        //         }
+
+        //         return View(resumeList);  // Pass data to the View
+        //     }
         public IActionResult ViewResume()
         {
             List<JobWithUserViewModel> resumeList = new List<JobWithUserViewModel>();
@@ -168,12 +208,7 @@ namespace Online_Job_Portal_MVC.Controllers
             using (SqlConnection con = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=JobPortalDB;Integrated Security=True;"))
             {
                 con.Open();
-                string query = @"
-        SELECT 
-            j.CompanyName, j.Title, 
-            r.FullName, r.Email, r.MobileNumber 
-        FROM Jobs j
-        JOIN Register r ON j.Email = r.Email;";
+                string query = @"SELECT Id, Fullname, Email, MoblieNumber, UploadResume FROM Resume";
 
                 SqlCommand cmd = new SqlCommand(query, con);
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -182,23 +217,21 @@ namespace Online_Job_Portal_MVC.Controllers
                 {
                     resumeList.Add(new JobWithUserViewModel
                     {
-                        Job = new AddJobModel
-                        {
-                            CompanyName = reader["CompanyName"].ToString(),
-                            Title = reader["Title"].ToString()
-                        },
                         User = new RegisterModel
                         {
                             Fullname = reader["Fullname"].ToString(),
                             Email = reader["Email"].ToString(),
-                            MobileNumber = reader["MobileNumber"].ToString()
-                        }
+                            MobileNumber = reader["MoblieNumber"].ToString()
+                        },
+                        ResumePath = reader["UploadResume"].ToString(),
+                        ResumeId = Convert.ToInt32(reader["Id"])
                     });
                 }
             }
 
-            return View(resumeList);  // Pass data to the View
+            return View(resumeList);
         }
+
 
 
         public IActionResult UserList()
@@ -323,6 +356,92 @@ namespace Online_Job_Portal_MVC.Controllers
 
             TempData["msg"] = "Job deleted successfully.";
             return RedirectToAction("JobList");
+        }
+
+        //public IActionResult DownloadResume(string path)
+        //{
+        //    if (System.IO.File.Exists(path))
+        //    {
+        //        byte[] fileBytes = System.IO.File.ReadAllBytes(path);
+        //        string fileName = Path.GetFileName(path);
+        //        return File(fileBytes, "application/octet-stream", fileName);
+        //    }
+        //    TempData["msg"] = "Resume file not found.";
+        //    return RedirectToAction("ViewResume");
+        //}
+
+        public IActionResult DownloadResume(int id)
+        {
+            using (SqlConnection con = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=JobPortalDB;Integrated Security=True;"))
+            {
+                con.Open();
+                string query = "SELECT UploadResume FROM Resume WHERE Id = @Id";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@Id", id);
+                string? relativePath = cmd.ExecuteScalar()?.ToString();
+
+                if (!string.IsNullOrEmpty(relativePath))
+                {
+                    // Build full file path
+                    string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", relativePath.TrimStart('/'));
+
+                    // Log path for debugging
+                    Console.WriteLine("Checking file path: " + filePath);
+
+                    if (System.IO.File.Exists(filePath))
+                    {
+                        byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
+                        string fileName = Path.GetFileName(filePath);
+                        return File(fileBytes, "application/octet-stream", fileName);
+                    }
+                    else
+                    {
+                        Console.WriteLine("File does NOT exist at: " + filePath);
+                    }
+                }
+            }
+
+            TempData["msg"] = "File not found.";
+            return RedirectToAction("ViewResume");
+        }
+
+
+
+
+
+        public IActionResult DeleteResume(int id)
+        {
+            using (SqlConnection con = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=JobPortalDB;Integrated Security=True;"))
+            {
+                con.Open();
+
+                // ✅ Corrected column name
+                string getPathQuery = "SELECT UploadResume FROM Resume WHERE Id=@Id";
+                SqlCommand getPathCmd = new SqlCommand(getPathQuery, con);
+                getPathCmd.Parameters.AddWithValue("@Id", id);
+                string? fileName = getPathCmd.ExecuteScalar()?.ToString();
+
+                string deleteQuery = "DELETE FROM Resume WHERE Id=@Id";
+                SqlCommand deleteCmd = new SqlCommand(deleteQuery, con);
+                deleteCmd.Parameters.AddWithValue("@Id", id);
+                int result = deleteCmd.ExecuteNonQuery();
+
+                if (result > 0 && !string.IsNullOrEmpty(fileName))
+                {
+                    string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "ResumeUploads", fileName);
+                    if (System.IO.File.Exists(filePath))
+                    {
+                        System.IO.File.Delete(filePath);
+                    }
+                    TempData["msg"] = "Resume deleted successfully!";
+                }
+                else
+                {
+                    TempData["msg"] = "Resume not deleted or file not found.";
+                }
+            }
+
+            return RedirectToAction("ViewResume");
         }
 
 
