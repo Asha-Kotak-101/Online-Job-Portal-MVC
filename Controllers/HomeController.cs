@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Configuration;
+using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Online_Job_Portal_MVC.Models;
@@ -7,14 +8,18 @@ namespace Online_Job_Portal_MVC.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IConfiguration _configuration;
+        private readonly ILogger<HomeController> _logger;
+
         ResumeModel RM = new ResumeModel();
         RegisterModel RegObj = new RegisterModel();
         LoginModel LogObj = new LoginModel();
         ContactModel conobj = new ContactModel();
-        private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+       
+        public HomeController(IConfiguration configuration, ILogger<HomeController> logger)
         {
+            _configuration = configuration;
             _logger = logger;
         }
 
@@ -28,15 +33,172 @@ namespace Online_Job_Portal_MVC.Controllers
             return View();
         }
 
+        //public IActionResult JobListing()
+        //{
+        //    return View();
+        //}
+
         public IActionResult JobListing()
         {
-            return View();
+            List<AddJobModel> jobs = new List<AddJobModel>();
+            string connectionString = _configuration.GetConnectionString("con");
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = "SELECT * FROM Jobs"; // Change table name as needed
+                SqlCommand cmd = new SqlCommand(query, con);
+                con.Open();
+
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    jobs.Add(new AddJobModel
+                    {
+                        JobId = Convert.ToInt32(reader["JobId"]),
+                        Title = reader["Title"].ToString(),
+                        CompanyName = reader["CompanyName"].ToString(),
+                        Country = reader["Country"].ToString(),
+                        JobType = reader["JobType"].ToString(),
+                        Salary = reader["Salary"].ToString(),
+                        LastDateToApply = reader["LastDateToApply"].ToString()
+                    });
+                }
+                con.Close();
+            }
+
+            ViewBag.TotalJobs = jobs.Count;
+            return View(jobs);
         }
 
-        public IActionResult JobDetails()
+
+        //public IActionResult JobDetails()
+        //{
+        //    return View();
+        //}
+
+        //public IActionResult JobDetails(int id)
+        //{
+        //    AddJobModel job = new AddJobModel();
+        //    string conStr = _configuration.GetConnectionString("con");
+
+        //    using (SqlConnection con = new SqlConnection(conStr))
+        //    {
+        //        string query = "SELECT * FROM Jobs WHERE JobId = @id";
+        //        SqlCommand cmd = new SqlCommand(query, con);
+        //        cmd.Parameters.AddWithValue("@id", id);
+        //        con.Open();
+        //        SqlDataReader rdr = cmd.ExecuteReader();
+
+        //        if (rdr.Read())
+        //        {
+        //            job.JobId = (int)rdr["JobId"];
+        //            job.Title = rdr["Title"].ToString();
+        //            job.CompanyName = rdr["Company"].ToString();
+        //            job.Country = rdr["Location"].ToString();
+        //            job.Salary = rdr["Salary"].ToString();
+        //            job.Description = rdr["Description"].ToString();
+        //            job.Qualification = rdr["Qualification"].ToString();
+        //            job.Experience = rdr["Experience"].ToString();
+        //            job.Specialization = rdr["Specialization"].ToString();
+        //            job.Website = rdr["Website"].ToString();
+        //            job.Email = rdr["Email"].ToString();
+        //        }
+        //    }
+
+        //    return View(job);
+        //}
+
+        //public IActionResult JobDetails(int id)
+        //{
+        //    AddJobModel job = null;
+        //    using (SqlConnection con = new SqlConnection("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=JobPortalDB;Integrated Security=True;"))
+        //    {
+        //        con.Open();
+        //        SqlCommand cmd = new SqlCommand("SELECT * FROM Jobs WHERE JobId = @id", con);
+        //        cmd.Parameters.AddWithValue("@id", id);
+        //        SqlDataReader reader = cmd.ExecuteReader();
+        //        if (reader.Read())
+        //        {
+        //            job = new AddJobModel
+        //            {
+        //                JobId = (int)reader["JobId"],
+        //                Title = reader["Title"].ToString(),
+        //                CompanyName = reader["CompanyName"].ToString(),
+        //                Country = reader["Country"].ToString(),
+        //                Description = reader["Description"].ToString(),
+        //                Qualification = reader["Qualification"].ToString(),
+        //                Experience = reader["Experience"].ToString(),
+        //                Specialization = reader["Specialization"].ToString(),
+        //                Salary = reader["Salary"].ToString(),
+        //                JobType = reader["JobType"].ToString(),
+        //                Website = reader["Website"].ToString(),
+        //                Email = reader["Email"].ToString(),
+        //                Address = reader["Address"].ToString(),
+        //                State = reader["State"].ToString(),
+        //                LastDateToApply = reader["LastDateToApply"].ToString()
+
+        //            };
+        //        }
+        //        con.Close();
+        //    }
+        //    return View(job);
+        //}
+        public IActionResult JobDetails(int id)
         {
-            return View();
+            AddJobModel job = new AddJobModel();
+            string connectionString = _configuration.GetConnectionString("con");
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = "SELECT * FROM Jobs WHERE JobId = @JobId";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@JobId", id);
+                con.Open();
+
+                SqlDataReader reader = cmd.ExecuteReader();
+                if (reader.Read())
+                {
+                    job.JobId = Convert.ToInt32(reader["JobId"]);
+                    job.Title = reader["Title"].ToString();
+                    job.CompanyName = reader["CompanyName"].ToString();
+                    job.Country = reader["Country"].ToString();
+                    job.JobType = reader["JobType"].ToString();
+                    job.Salary = reader["Salary"].ToString();
+                    job.LastDateToApply = reader["LastDateToApply"].ToString();
+                    job.Description = reader["Description"].ToString();
+                }
+            }
+
+            return View(job);
         }
+
+        [HttpPost]
+        public IActionResult ApplyForJob(int JobId)
+        {
+            string username = HttpContext.Session.GetString("Username");
+            if (string.IsNullOrEmpty(username))
+            {
+                TempData["msg"] = "Login required to apply.";
+                return RedirectToAction("Login");
+            }
+
+            using (SqlConnection con = new SqlConnection(_configuration.GetConnectionString("con")))
+            {
+                string query = "INSERT INTO AppliedJobs (JobId, Username) VALUES (@JobId, @Username)";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@JobId", JobId);
+                cmd.Parameters.AddWithValue("@Username", username);
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+
+            TempData["msg"] = "Successfully applied!";
+            return RedirectToAction("UserProfile");
+        }
+
+
 
         public IActionResult Contact()
         {

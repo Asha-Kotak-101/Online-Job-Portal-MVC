@@ -9,6 +9,9 @@ namespace Online_Job_Portal_MVC.Controllers
     {
         AddJobModel job = new AddJobModel();
         private readonly ILogger<HomeController> _logger;
+
+        private readonly string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=JobPortalDB;Integrated Security=True;";
+
         public AdminController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -300,7 +303,7 @@ namespace Online_Job_Portal_MVC.Controllers
         [HttpPost]
         public IActionResult DeleteUser(string email)
         {
-            string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=JobPortalDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False"; 
+            string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=JobPortalDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
 
             using (SqlConnection con = new SqlConnection(connectionString))
             {
@@ -445,5 +448,63 @@ namespace Online_Job_Portal_MVC.Controllers
         }
 
 
+        public IActionResult ViewApplicants(int jobId)
+        {
+            List<(string Username, DateTime AppliedDate)> applicants = new List<(string, DateTime)>();
+
+            using (SqlConnection con = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=JobPortalDB;Integrated Security=True;"))
+            {
+                string query = "SELECT Username, AppliedDate FROM AppliedJobs WHERE JobId = @JobId";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@JobId", jobId);
+
+                con.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    applicants.Add((
+                        reader["Username"].ToString(),
+                        Convert.ToDateTime(reader["AppliedDate"])
+                    ));
+                }
+                con.Close();
+            }
+
+            ViewBag.JobId = jobId;
+            return View(applicants);
+        }
+
+
+        public IActionResult ViewAppliedJob(int jobId)
+        {
+            List<AppliedJobsModel> applicants = new List<AppliedJobsModel>();
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = "SELECT Username, AppliedDate FROM AppliedJobs WHERE JobId = @JobId";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@JobId", jobId);
+
+                con.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    applicants.Add(new AppliedJobsModel
+                    {
+                        UserName = reader["UserName"].ToString(),
+                        AppliedDate = Convert.ToDateTime(reader["AppliedDate"])
+                    });
+                }
+                con.Close();
+            }
+
+            ViewBag.JobId = jobId;
+            return View(applicants);
+        }
     }
 }
+
+
+
+    
+
