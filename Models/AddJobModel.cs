@@ -41,8 +41,6 @@ namespace Online_Job_Portal_MVC.Models
         [Required(ErrorMessage = "Please enter CompanyName")]
         public string? CompanyName { get; set; }
 
-        //[Required(ErrorMessage = "Please enter CompanyLogo")]
-        //public string? CompanyLogo { get; set; }
 
         [Required(ErrorMessage = "Please enter Website")]
         public string? Website { get; set; }
@@ -60,39 +58,7 @@ namespace Online_Job_Portal_MVC.Models
         public string? State { get; set; }
 
 
-        //Retrieve all records from a table
-        //public List<AddJobModel> getData()
-        //{
-        //    List<AddJobModel> jobList = new List<AddJobModel>();
-        //    SqlDataAdapter apt = new SqlDataAdapter("SELECT * FROM Jobs", con);
-        //    DataSet ds = new DataSet();
-        //    apt.Fill(ds);
-
-        //    foreach (DataRow dr in ds.Tables[0].Rows)
-        //    {
-        //        jobList.Add(new AddJobModel
-        //        {
-        //            Id = Convert.ToInt32(dr["Id"]),
-        //            Title = dr["Title"].ToString(),
-        //            NoOfPost = dr["NoOfPost"].ToString(),
-        //            Description = dr["Description"].ToString(),
-        //            Qualification = dr["Qualification"].ToString(),
-        //            Experience = dr["Experience"].ToString(),
-        //            Specialization = dr["Specialization"].ToString(),
-        //            LastDateToApply = dr["LastDateToApply"].ToString(),
-        //            Salary = dr["Salary"].ToString(),
-        //            JobType = dr["JobType"].ToString(),
-        //            CompanyName = dr["CompanyName"].ToString(),
-        //            //CompanyLogo = dr["CompanyLogo"].ToString(),
-        //            Website = dr["Website"].ToString(),
-        //            Email = dr["Email"].ToString(),
-        //            Address = dr["Address"].ToString(),
-        //            Country = dr["Country"].ToString(),
-        //            State = dr["State"].ToString(),
-        //        });
-        //    }
-        //    return jobList;
-        //}
+       
 
         //Retrieve all records from a table
         public List<AddJobModel> getData()

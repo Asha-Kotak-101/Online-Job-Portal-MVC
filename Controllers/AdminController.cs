@@ -17,10 +17,7 @@ namespace Online_Job_Portal_MVC.Controllers
             _logger = logger;
         }
 
-        //public IActionResult AdminDashboard()
-        //{
-        //    return View();
-        //}
+       
         public IActionResult AdminDashboard()
         {
             DashboardViewModel model = new DashboardViewModel();
@@ -72,64 +69,9 @@ namespace Online_Job_Portal_MVC.Controllers
             return View(new AddJobModel());
         }
 
-        //[HttpPost]
-        //public IActionResult NewJob(AddJobModel emp)
-        //{
-        //    bool res;
-        //    if (ModelState.IsValid)
-        //    {
-        //        job = new AddJobModel();
-        //        res = job.insert(emp);
-        //        if (res)
-        //        {
-        //            TempData["msg"] = "New Job Added successfully";
-        //        }
-        //        else
-        //        {
-        //            TempData["msg"] = "Not Added. Something went wrong..!!";
-        //        }
-        //    }
-        //    return View();
-        //}
 
 
-        //[HttpPost]
-        //public IActionResult NewJob(AddJobModel emp)
-        //{
-        //    foreach (var state in ModelState)
-        //    {
-        //        Console.WriteLine($"Key: {state.Key}, Errors: {string.Join(", ", state.Value.Errors.Select(e => e.ErrorMessage))}");
-        //    }
-
-        //    if (!ModelState.IsValid)
-        //    {
-        //        // Collect validation errors
-        //        var errors = ModelState.Values.SelectMany(v => v.Errors)
-        //                                      .Select(e => e.ErrorMessage)
-        //                                      .ToList();
-
-        //        // Store errors in TempData
-        //        TempData["msg"] = "⚠️ Validation Failed! Errors: " + string.Join(", ", errors);
-
-        //        return View(emp);  // Return the form with errors
-        //    }
-
-        //    job = new AddJobModel();
-        //    bool res = job.insert(emp);
-
-        //    if (res)
-        //    {
-        //        TempData["msg"] = "✅ New Job Added Successfully!";
-        //        return RedirectToAction("JobList");
-        //    }
-        //    else
-        //    {
-        //        TempData["msg"] = "❌ Error: Job Not Added!";
-        //    }
-
-        //    return View(emp);
-        //}
-
+       
 
 
         [HttpPost]
@@ -160,50 +102,6 @@ namespace Online_Job_Portal_MVC.Controllers
         }
 
 
-        //public IActionResult ViewResume()
-        //{
-        //    return View();
-        //}
-        //     public IActionResult ViewResume()
-        //     {
-        //         List<JobWithUserViewModel> resumeList = new List<JobWithUserViewModel>();
-
-        //         using (SqlConnection con = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=JobPortalDB;Integrated Security=True;"))
-        //         {
-        //             con.Open();
-        //             string query = @"
-        //     SELECT 
-        // j.CompanyName, j.Title, 
-        // r.FullName, r.Email, r.MobileNumber, 
-        // res.ResumeFilePath
-        // FROM Jobs j
-        //JOIN Register r ON j.Email = r.Email
-        //JOIN Resume res ON r.Email = res.Email ";
-
-        //             SqlCommand cmd = new SqlCommand(query, con);
-        //             SqlDataReader reader = cmd.ExecuteReader();
-
-        //             while (reader.Read())
-        //             {
-        //                 resumeList.Add(new JobWithUserViewModel
-        //                 {
-        //                     Job = new AddJobModel
-        //                     {
-        //                         CompanyName = reader["CompanyName"].ToString(),
-        //                         Title = reader["Title"].ToString()
-        //                     },
-        //                     User = new RegisterModel
-        //                     {
-        //                         Fullname = reader["Fullname"].ToString(),
-        //                         Email = reader["Email"].ToString(),
-        //                         MobileNumber = reader["MobileNumber"].ToString()
-        //                     }
-        //                 });
-        //             }
-        //         }
-
-        //         return View(resumeList);  // Pass data to the View
-        //     }
         public IActionResult ViewResume()
         {
             List<JobWithUserViewModel> resumeList = new List<JobWithUserViewModel>();
@@ -361,17 +259,7 @@ namespace Online_Job_Portal_MVC.Controllers
             return RedirectToAction("JobList");
         }
 
-        //public IActionResult DownloadResume(string path)
-        //{
-        //    if (System.IO.File.Exists(path))
-        //    {
-        //        byte[] fileBytes = System.IO.File.ReadAllBytes(path);
-        //        string fileName = Path.GetFileName(path);
-        //        return File(fileBytes, "application/octet-stream", fileName);
-        //    }
-        //    TempData["msg"] = "Resume file not found.";
-        //    return RedirectToAction("ViewResume");
-        //}
+      
 
         public IActionResult DownloadResume(int id)
         {

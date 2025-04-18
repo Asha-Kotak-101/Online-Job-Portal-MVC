@@ -33,11 +33,7 @@ namespace Online_Job_Portal_MVC.Controllers
             return View();
         }
 
-        //public IActionResult JobListing()
-        //{
-        //    return View();
-        //}
-
+        
         public IActionResult JobListing()
         {
             List<AddJobModel> jobs = new List<AddJobModel>();
@@ -71,78 +67,7 @@ namespace Online_Job_Portal_MVC.Controllers
         }
 
 
-        //public IActionResult JobDetails()
-        //{
-        //    return View();
-        //}
-
-        //public IActionResult JobDetails(int id)
-        //{
-        //    AddJobModel job = new AddJobModel();
-        //    string conStr = _configuration.GetConnectionString("con");
-
-        //    using (SqlConnection con = new SqlConnection(conStr))
-        //    {
-        //        string query = "SELECT * FROM Jobs WHERE JobId = @id";
-        //        SqlCommand cmd = new SqlCommand(query, con);
-        //        cmd.Parameters.AddWithValue("@id", id);
-        //        con.Open();
-        //        SqlDataReader rdr = cmd.ExecuteReader();
-
-        //        if (rdr.Read())
-        //        {
-        //            job.JobId = (int)rdr["JobId"];
-        //            job.Title = rdr["Title"].ToString();
-        //            job.CompanyName = rdr["Company"].ToString();
-        //            job.Country = rdr["Location"].ToString();
-        //            job.Salary = rdr["Salary"].ToString();
-        //            job.Description = rdr["Description"].ToString();
-        //            job.Qualification = rdr["Qualification"].ToString();
-        //            job.Experience = rdr["Experience"].ToString();
-        //            job.Specialization = rdr["Specialization"].ToString();
-        //            job.Website = rdr["Website"].ToString();
-        //            job.Email = rdr["Email"].ToString();
-        //        }
-        //    }
-
-        //    return View(job);
-        //}
-
-        //public IActionResult JobDetails(int id)
-        //{
-        //    AddJobModel job = null;
-        //    using (SqlConnection con = new SqlConnection("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=JobPortalDB;Integrated Security=True;"))
-        //    {
-        //        con.Open();
-        //        SqlCommand cmd = new SqlCommand("SELECT * FROM Jobs WHERE JobId = @id", con);
-        //        cmd.Parameters.AddWithValue("@id", id);
-        //        SqlDataReader reader = cmd.ExecuteReader();
-        //        if (reader.Read())
-        //        {
-        //            job = new AddJobModel
-        //            {
-        //                JobId = (int)reader["JobId"],
-        //                Title = reader["Title"].ToString(),
-        //                CompanyName = reader["CompanyName"].ToString(),
-        //                Country = reader["Country"].ToString(),
-        //                Description = reader["Description"].ToString(),
-        //                Qualification = reader["Qualification"].ToString(),
-        //                Experience = reader["Experience"].ToString(),
-        //                Specialization = reader["Specialization"].ToString(),
-        //                Salary = reader["Salary"].ToString(),
-        //                JobType = reader["JobType"].ToString(),
-        //                Website = reader["Website"].ToString(),
-        //                Email = reader["Email"].ToString(),
-        //                Address = reader["Address"].ToString(),
-        //                State = reader["State"].ToString(),
-        //                LastDateToApply = reader["LastDateToApply"].ToString()
-
-        //            };
-        //        }
-        //        con.Close();
-        //    }
-        //    return View(job);
-        //}
+       
         public IActionResult JobDetails(int id)
         {
             AddJobModel job = new AddJobModel();
@@ -275,26 +200,7 @@ namespace Online_Job_Portal_MVC.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //public IActionResult Login(LoginModel lg)
-        //{
-        //    bool res;
-        //    if (ModelState.IsValid)
-        //    {
-        //        LogObj = new LoginModel();
-        //        res = LogObj.insert(lg);
-        //        if (res)
-        //        {
-        //            TempData["msg"] = "Login successfully";
-        //        }
-        //        else
-        //        {
-        //            TempData["msg"] = "Not Login. Something went wrong..!!";
-        //        }
-        //    }
-        //    return View();
-        //}
-
+       
         [HttpPost]
         public IActionResult Login(LoginModel model)
         {
@@ -346,26 +252,7 @@ namespace Online_Job_Portal_MVC.Controllers
 
 
 
-        //[HttpPost]
-        //public IActionResult ResumeBulid(ResumeModel emp)
-        //{
-        //    bool res;
-        //    if (ModelState.IsValid)
-        //    {
-        //        RM = new ResumeModel();
-        //        res = RM.insert(emp);
-        //        if (res)
-        //        {
-        //            TempData["msg"] = "Added successfully";
-        //        }
-        //        else
-        //        {
-        //            TempData["msg"] = "Not Added. Something went wrong..!!";
-        //        }
-        //    }
-        //    return View();
-        //}
-
+        
 
         [HttpPost]
         public IActionResult ResumeBulid(ResumeModel emp)
@@ -410,47 +297,7 @@ namespace Online_Job_Portal_MVC.Controllers
 
 
 
-        //[HttpPost]
-        //public IActionResult ResumeBulid(ResumeModel resume)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        using (SqlConnection con = new SqlConnection("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=JobPortalDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False"))
-        //        {
-        //            string query = "INSERT INTO Resume (Fullname, Username, Address, MoblieNumber, Email, Country, TenPercentage, TWPercentage, GraduationGrade, PostGraduationGrade, PHDGrade, JobProfile, WorksExperience, UploadResume) " + "VALUES (@Fullname, @Username, @Address, @MoblieNumber, @Email, @Country, @TenPercentage, @TWPercentage, @GraduationGrade,@PostGraduationGrade, @PHDGrade, @JobProfile,@WorksExperience, @UploadResume)";
-        //            SqlCommand cmd = new SqlCommand(query, con);
-        //            cmd.Parameters.AddWithValue("@Fullname", resume.Fullname);
-        //            cmd.Parameters.AddWithValue("@Username", resume.Username);
-        //            cmd.Parameters.AddWithValue("@Address", resume.Address);
-        //            cmd.Parameters.AddWithValue("@MoblieNumber", resume.MoblieNumber);
-
-        //            cmd.Parameters.AddWithValue("@Fullname", resume.Email);
-        //            cmd.Parameters.AddWithValue("@Username", resume.Country);
-        //            cmd.Parameters.AddWithValue("@Address", resume.TenPercentage);
-        //            cmd.Parameters.AddWithValue("@MoblieNumber", resume.TWPercentage);
-
-        //            cmd.Parameters.AddWithValue("@Fullname", resume.GraduationGrade);
-        //            cmd.Parameters.AddWithValue("@Username", resume.PostGraduationGrade);
-        //            cmd.Parameters.AddWithValue("@Address", resume.PHDGrade);
-        //            cmd.Parameters.AddWithValue("@MoblieNumber", resume.JobProfile);
-
-        //            cmd.Parameters.AddWithValue("@Fullname", resume.WorksExperience);
-
-        //            cmd.Parameters.AddWithValue("@UploadResume", resume.UploadResume); // Store file path if needed
-        //            con.Open();
-        //            int result = cmd.ExecuteNonQuery();
-        //            con.Close();
-
-        //            if (result > 0)
-        //            {
-        //                TempData["Success"] = "Resume uploaded successfully!";
-        //                return RedirectToAction("UserProfile","Home");
-        //            }
-        //        }
-        //    }
-        //    return View(resume);
-        //}
-
+       
 
         [HttpPost]
         public IActionResult Contact(ContactModel lg)
